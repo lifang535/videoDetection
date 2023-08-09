@@ -30,3 +30,10 @@ with torch.no_grad():
 
 试图分 input、detection、output 三个模块，用 grpc 传输视频帧等消息，但是代码一直有 bug，分模块可以考虑开多个进程多个 worker 处理视频
 
+不太理解论文 Rim 的图中 Car Detection 和 Person Detection 为什么分成两部分，用一个模块的模型就可以识别出来单个视频帧的人和车的结果
+
+Rim：https://dl.acm.org/doi/pdf/10.1145/3450268.3453521
+
+### 3. Traffic 汇总
+
+采用对视频帧的采样，每 1 秒记录一次车辆信息，每 5 秒记录一次行人信息，防止对车辆和行人的重复计算
