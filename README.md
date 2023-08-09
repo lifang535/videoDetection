@@ -9,11 +9,12 @@ This is a test of video detection.
 
 ### 1. 代码运行速度慢
 
-改用 gpu 处理
+改用 gpu 处理，试图使用两个 gpu，但是效果不明显
 ```
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
-device = torch.device("cuda")
 model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50").to(device)
+# model = torch.nn.DataParallel(model).to(device)
 ```
 
 不进行梯度计算
