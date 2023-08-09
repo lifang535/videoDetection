@@ -9,7 +9,7 @@ This is a test of video detection.
 
 ### 1. 代码运行速度慢
 
-改用 gpu 处理，试图使用两个 gpu，但是效果不明显
+改用 gpu 处理，试图使用两个 gpu，但是改用两个时提速效果不明显
 ```
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
