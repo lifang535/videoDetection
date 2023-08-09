@@ -35,6 +35,15 @@ with torch.no_grad():
 
 Rim：https://dl.acm.org/doi/pdf/10.1145/3450268.3453521
 
+加了后续两个模块，但是统计车辆及行人在函数内部已经做了，考虑用别的模型在后续模块获得更具体的信息
+
+```
+if model.config.id2label[label.item()] == "car":
+    car_detection(frame, box)
+if model.config.id2label[label.item()] == "person":
+    person_detection(frame, box)
+```
+
 ### 3. Traffic 汇总
 
 采用对视频帧的采样，每 1 秒记录一次车辆信息，每 5 秒记录一次行人信息，防止对车辆和行人的重复计算
