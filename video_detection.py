@@ -115,12 +115,12 @@ def process(frame):
     #inputs = processor(images=image, return_tensors="pt")
     #outputs = model(**inputs)
     inputs = processor(images=image, return_tensors="pt")
-    inputs = {key: val.to(device) for key, val in inputs.items()}  # 移动输入数据到 GPU
-    with torch.no_grad():  # 执行模型推理，确保不会进行梯度计算
-        outputs = model(**inputs)    
+    inputs = {key: val.to(device) for key, val in inputs.items()}  # move data to GPU
+    with torch.no_grad():  # without grad
+        outputs = model(**inputs)
 
     # convert outputs (bounding boxes and class logits) to COCO API
-    # let's only keep detections with score > 0.9
+    # only keep detections with score > 0.9
     target_sizes = torch.tensor([image.size[::-1]])
     results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
 
@@ -145,7 +145,12 @@ def process(frame):
             if model.config.id2label[label.item()] == "person":
                 person_num += 1
                 person_timer = time.time()
-
+                
+        if model.config.id2label[label.item()] == "car":
+            car_detection(frame, box)
+        if model.config.id2label[label.item()] == "person":
+            person_detection(frame, box)
+            
         label_text = f"{model.config.id2label[label.item()]} {round(score.item(), 3)}"
         draw.rectangle(box, outline="blue", width=3)
         draw.text((box[0], box[1]), label_text, fill="yellow", font=font)
@@ -153,6 +158,12 @@ def process(frame):
     processed_frame = np.array(image)
 
     return processed_frame
+
+def car_detection(frame, box):
+    ...
+
+def person_detection(frame, box):
+    ...
 
 if __name__ == "__main__":
     # opt_run = torch.compile(run)
