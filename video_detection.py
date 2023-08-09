@@ -27,9 +27,8 @@ processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
 model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
 """
 # 将模型和相关操作移动到 GPU 上
-#device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
-device = torch.device("cuda")
 model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50").to(device)
 # model = torch.nn.DataParallel(model).to(device)
 
